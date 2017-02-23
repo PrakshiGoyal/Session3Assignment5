@@ -1,0 +1,9 @@
+High Availability of NameNode
+
+Hadoop cluster has two nodes: NameNode and Secondary node:
+NameNode stays in the active state and Secondary Node in the standBy node. The active NameNode is responsible for servicing client requests and storing metadata. Secondary NameNode stays at the backup for in case of failover for recovery.
+In order for the Standby node to keep its state synchronized with the Active node, the current implementation requires that the two nodes both have access to a directory on a shared storage device. Whenever any modification of namespace is done, the active NameNode logs the activity into edit logs file stored in the shared directory.
+The secondary NameNode keeps a track of eit logs and as soon as it finds that the edit logs file has been updated, it also updates the same changes in its own namespace. In the event of a failover, the Standby will ensure that it has read all of the edits from the shared storage before promoting itself to the Active state. This ensures that the namespace state is fully synchronized before a failover occurs.
+The datanodes are configured with the locations of both the name nodes and both the NameNodes also contain block locations information of all the DataNodes. 
+
+Thus presence of two Master nodes ensures high availability of NameNode and avoids it as a single point of failure.
