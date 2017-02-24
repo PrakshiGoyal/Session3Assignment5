@@ -1,0 +1,6 @@
+Checkpointing in HDFS
+
+Check pointing is basically used for maintaining and persisting filesystem metadata in HDFS.It is used for the recovery of NameNode and to maintain the integrity of data. It indicates the overall health of the cluster.
+The NameNode stores data in two files called fsimage and edit logs file. 
+the fsimage provides a point-in-time snapshot of the metadata.Although the file format is very efficient to read,it isnot uitable for making small updates. Therefore instead of updation of the fsimage every time, the namespace is updated or modified.The NameNode thus logs this activity in the edit logs file. If anytime, the NameNode crashes, the Secondary NameNode which is at StandBy can restore the state by retrieving the fsimage and then repeating all the operations in the edit log file
+Fsimage checks the edit log file after every one hour to check for updates while the edit logs are updated every fifteen minutes to store all the updates. This is how checkpointing is done and helps in fault tolerance.
